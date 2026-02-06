@@ -151,27 +151,17 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
                     return (
                       <Link
                         key={item.name}
-                        href={item.disabled ? "#" : item.href}
-                        onClick={
-                          item.disabled
-                            ? (e) => e.preventDefault()
-                            : () => onClose()
-                        }
+                        href={item.href}
+                        onClick={() => onClose()}
                         className={cn(
                           "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                           isActive
                             ? "bg-primary text-primary-foreground"
                             : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                          item.disabled && "opacity-40 cursor-not-allowed",
                         )}
                       >
                         <Icon className="h-4 w-4 shrink-0" />
                         <span className="truncate">{item.name}</span>
-                        {item.disabled && (
-                          <span className="ml-auto text-[10px] rounded bg-muted px-1.5 py-0.5">
-                            Soon
-                          </span>
-                        )}
                       </Link>
                     );
                   })}
