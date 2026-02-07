@@ -21,55 +21,162 @@ import {
   CreditCard,
   Settings,
   ChevronDown,
-  ShoppingBag,
-  Building2,
+  ListTodo,
   X,
+  FileStack,
+  Link2,
+  Search,
 } from "lucide-react";
 import { useState } from "react";
 
 const navGroups = [
   {
     label: "Main",
-    items: [{ name: "Dashboard", href: "/admin", icon: LayoutDashboard }],
+    items: [
+      {
+        name: "Dashboard",
+        href: "/dashboard/super-admin",
+        icon: LayoutDashboard,
+        disabled: false,
+      },
+    ],
   },
   {
     label: "Management",
     items: [
-      { name: "Content (CMS)", href: "/admin/cms", icon: FileText },
-      { name: "Projects", href: "/admin/projects", icon: FolderKanban },
-      { name: "Services", href: "/admin/services", icon: Briefcase },
-      { name: "Team", href: "/admin/team", icon: Users },
-      { name: "Tasks", href: "/admin/tasks", icon: CheckSquare },
-      { name: "Clients", href: "/admin/clients", icon: UserCircle },
+      {
+        name: "Content (CMS)",
+        href: "/dashboard/super-admin/cms",
+        icon: FileText,
+        disabled: false,
+      },
+      {
+        name: "Projects",
+        href: "/dashboard/super-admin/projects",
+        icon: FolderKanban,
+        disabled: false,
+      },
+      {
+        name: "Services",
+        href: "/dashboard/super-admin/services",
+        icon: Briefcase,
+        disabled: false,
+      },
+      {
+        name: "Team",
+        href: "/dashboard/super-admin/team",
+        icon: Users,
+        disabled: false,
+      },
+      {
+        name: "Tasks",
+        href: "/dashboard/super-admin/tasks",
+        icon: CheckSquare,
+        disabled: false,
+      },
+      {
+        name: "Clients",
+        href: "/dashboard/super-admin/clients",
+        icon: UserCircle,
+        disabled: false,
+      },
+    ],
+  },
+  {
+    label: "Page Management",
+    items: [
+      {
+        name: "SEO Settings",
+        href: "/dashboard/super-admin/seo",
+        icon: Search,
+        disabled: false,
+      },
+      {
+        name: "Page Builder",
+        href: "/dashboard/super-admin/builder",
+        icon: FileStack,
+        disabled: false,
+      },
+      {
+        name: "Link Management ",
+        href: "/dashboard/super-admin/links",
+        icon: Link2,
+        disabled: false,
+      },
     ],
   },
   {
     label: "Finance",
     items: [
-      { name: "Invoices", href: "/admin/invoices", icon: Receipt },
-      { name: "Partnership", href: "/admin/partnership", icon: Handshake },
+      {
+        name: "Invoices",
+        href: "/dashboard/super-admin/invoices",
+        icon: Receipt,
+        disabled: false,
+      },
+      {
+        name: "Partnership",
+        href: "/dashboard/super-admin/partnership",
+        icon: Handshake,
+        disabled: false,
+      },
     ],
   },
   {
     label: "Marketing",
     items: [
-      { name: "Campaigns", href: "/admin/marketing", icon: Megaphone },
-      { name: "Success Stories", href: "/admin/stories", icon: Trophy },
+      {
+        name: "Campaigns",
+        href: "/dashboard/super-admin/marketing",
+        icon: Megaphone,
+        disabled: false,
+      },
+      {
+        name: "Success Stories",
+        href: "/dashboard/super-admin/stories",
+        icon: Trophy,
+        disabled: false,
+      },
     ],
   },
   {
     label: "Organization",
     items: [
-      { name: "Roles & Permissions", href: "/admin/roles", icon: Shield },
-      { name: "School Control", href: "/admin/schools", icon: GraduationCap },
-      { name: "ID Cards", href: "/admin/id-cards", icon: CreditCard },
+      {
+        name: "Roles & Permissions",
+        href: "/dashboard/super-admin/roles",
+        icon: Shield,
+        disabled: false,
+      },
+      {
+        name: "School Control",
+        href: "/dashboard/super-admin/schools",
+        icon: GraduationCap,
+        disabled: false,
+      },
+      {
+        name: "ID Cards",
+        href: "/dashboard/super-admin/id-cards",
+        icon: CreditCard,
+        disabled: false,
+      },
     ],
   },
   {
     label: "Support & Config",
     items: [
-      { name: "Support Tickets", href: "/admin/support", icon: LifeBuoy },
-      { name: "Settings", href: "/admin/settings", icon: Settings },
+      {
+        name: "Support Tickets",
+        href: "/dashboard/super-admin/support",
+        icon: LifeBuoy,
+        disabled: false,
+      },
+      {
+        name: "Settings",
+        href: "/dashboard/super-admin/settings",
+        icon: Settings,
+        disabled: false,
+      },
     ],
   },
   {
@@ -78,20 +185,37 @@ const navGroups = [
       {
         name: "Shop (E-Commerce)",
         href: "#",
-        icon: ShoppingBag,
+        icon: ListTodo,
         disabled: true,
       },
-      { name: "Office Management", href: "#", icon: Building2, disabled: true },
+      {
+        name: "Additional Modules",
+        href: "#",
+        icon: ListTodo,
+        disabled: true,
+      },
+      {
+        name: "Marketing Module",
+        href: "#",
+        icon: ListTodo,
+        disabled: true,
+      },
+      {
+        name: "External Features",
+        href: "#",
+        icon: ListTodo,
+        disabled: true,
+      },
     ],
   },
 ];
 
-interface AdminSidebarProps {
+interface SuperAdminSidebarProps {
   open: boolean;
   onClose: () => void;
 }
 
-export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
+export function SuperAdminSidebar({ open, onClose }: SuperAdminSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
@@ -151,17 +275,27 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
                     return (
                       <Link
                         key={item.name}
-                        href={item.href}
-                        onClick={() => onClose()}
+                        href={item.disabled ? "#" : item.href}
+                        onClick={
+                          item.disabled
+                            ? (e) => e.preventDefault()
+                            : () => onClose()
+                        }
                         className={cn(
                           "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
                           isActive
                             ? "bg-primary text-primary-foreground"
                             : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                          item.disabled && "opacity-40 cursor-not-allowed",
                         )}
                       >
                         <Icon className="h-4 w-4 shrink-0" />
                         <span className="truncate">{item.name}</span>
+                        {item.disabled && (
+                          <span className="ml-auto text-[10px] rounded bg-muted px-1.5 py-0.5">
+                            Soon
+                          </span>
+                        )}
                       </Link>
                     );
                   })}
@@ -179,7 +313,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">Super Admin</p>
               <p className="text-xs text-muted-foreground truncate">
-                admin@jevxo.com
+                superadmin@jevxo.com
               </p>
             </div>
           </div>

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { SuperAdminSidebar } from "@/components/super-admin/super-admin-sidebar";
 import { Menu, Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ModeToggle } from "@/components/ui/toogle-button";
+import { PortalSideBar } from "@/components/portal/portal-sidebar";
 
 export default function AdminLayout({
   children,
@@ -16,7 +17,7 @@ export default function AdminLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      <AdminSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <PortalSideBar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex h-14 items-center gap-4 border-b bg-card px-4">
           <Button
