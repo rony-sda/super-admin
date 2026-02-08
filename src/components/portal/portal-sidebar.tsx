@@ -205,10 +205,10 @@ export function PortalSideBar({ open, onClose }: PortalSideBarProps) {
         <div className="border-t p-3">
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
-              Alex Thompson
+              AT
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">Hrm</p>
+              <p className="text-sm font-medium truncate">Alex Thompson</p>
               <p className="text-xs text-muted-foreground truncate">
                 alexthompson@gmail.com
               </p>
