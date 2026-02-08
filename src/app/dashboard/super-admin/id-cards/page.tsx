@@ -74,7 +74,7 @@ export default function IDCardsPage() {
         </TabsList>
 
         <TabsContent value="staff" className="mt-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
             {teamMembers.map((m) => (
               <IDCard
                 key={m.id}
@@ -88,7 +88,7 @@ export default function IDCardsPage() {
         </TabsContent>
 
         <TabsContent value="clients" className="mt-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
             {clients.map((c) => (
               <IDCard
                 key={c.id}
@@ -102,7 +102,7 @@ export default function IDCardsPage() {
         </TabsContent>
 
         <TabsContent value="students" className="mt-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
             {students.map((c) => (
               <IDCard
                 key={c.id}

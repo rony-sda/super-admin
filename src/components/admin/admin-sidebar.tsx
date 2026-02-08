@@ -5,24 +5,16 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  Users,
-  Target,
-  Ticket,
-  ListTodo,
   FolderKanban,
-  CalendarDays,
+  ListTodo,
+  FileText,
+  User,
   BarChart3,
   X,
   ChevronDown,
-  FileText,
-  UsersRound,
-  PhoneForwarded,
-  StickyNote,
-  GitCompareArrows,
-  Store,
 } from "lucide-react";
-
 import { useState } from "react";
+import { adminProfile } from "@/lib/mock-data";
 
 const navGroups = [
   {
@@ -30,107 +22,47 @@ const navGroups = [
     items: [
       {
         name: "Dashboard",
-        href: "/dashboard/crm",
+        href: "/dashboard/admin",
         icon: LayoutDashboard,
         disabled: false,
       },
     ],
   },
   {
-    label: "Crm Core",
-    items: [
-      {
-        name: "Clients",
-        href: "/dashboard/crm/clients",
-        icon: Users,
-        disabled: false,
-      },
-      {
-        name: "Leads & Pipeline",
-        href: "/dashboard/crm/leads",
-        icon: Target,
-        disabled: false,
-      },
-      {
-        name: "Follow-ups",
-        href: "/dashboard/crm/follow-ups",
-        icon: PhoneForwarded,
-        disabled: false,
-      },
-      {
-        name: "Notes / Activities",
-        href: "/dashboard/crm/notes",
-        icon: StickyNote,
-        disabled: false,
-      },
-      {
-        name: "Conversion Tracking",
-        href: "/dashboard/crm/conversion-tracking",
-        icon: GitCompareArrows,
-        disabled: false,
-      },
-    ],
-  },
-  {
-    label: "OPERATIONS",
+    label: "Operations",
     items: [
       {
         name: "Projects",
-        href: "/dashboard/crm/projects",
+        href: "/dashboard/admin/projects",
         icon: FolderKanban,
         disabled: false,
       },
       {
         name: "Tasks",
-        href: "/dashboard/crm/tasks",
+        href: "/dashboard/admin/tasks",
         icon: ListTodo,
         disabled: false,
       },
       {
-        name: "Meetings",
-        href: "/dashboard/crm/meetings",
-        icon: CalendarDays,
-        disabled: false,
-      },
-
-      {
-        name: "Tickets",
-        href: "/dashboard/crm/tickets",
-        icon: Ticket,
-        disabled: false,
-      },
-    ],
-  },
-  {
-    label: "FINANCE",
-    items: [
-      {
-        name: "Invoices",
-        href: "/dashboard/crm/invoices",
+        name: "Invoice Operations",
+        href: "/dashboard/admin/invoices",
         icon: FileText,
         disabled: false,
       },
-      {
-        name: "Shop",
-        href: "/dashboard/crm/shop",
-        icon: Store,
-        disabled: false,
-      },
     ],
   },
-
   {
-    label: "Team & Reports",
+    label: "Account",
     items: [
       {
-        name: "Team",
-        href: "/dashboard/crm/team",
-        icon: UsersRound,
+        name: "Profile",
+        href: "/dashboard/admin/profile",
+        icon: User,
         disabled: false,
       },
       {
         name: "Reports",
-        href: "/dashboard/crm/reports",
+        href: "/dashboard/admin/reports",
         icon: BarChart3,
         disabled: false,
       },
@@ -138,12 +70,12 @@ const navGroups = [
   },
 ];
 
-interface CrmSidebarProps {
+interface AdminSidebarProps {
   open: boolean;
   onClose: () => void;
 }
 
-export function CrmSidebar({ open, onClose }: CrmSidebarProps) {
+export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
 
@@ -157,6 +89,7 @@ export function CrmSidebar({ open, onClose }: CrmSidebarProps) {
         <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={onClose}
+          aria-hidden="true"
         />
       )}
       <aside
@@ -166,26 +99,29 @@ export function CrmSidebar({ open, onClose }: CrmSidebarProps) {
         )}
       >
         <div className="flex h-14 items-center justify-between border-b px-4">
-          <Link href="/admin" className="flex items-center gap-2">
+          <Link href="/dashboard/admin" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
               J
             </div>
-            <span className="text-lg font-bold">Jevxo</span>
+            <span className="text-lg font-bold">Jevxo Admin</span>
           </Link>
           <button
             onClick={onClose}
             className="lg:hidden p-1 rounded hover:bg-muted"
+            type="button"
+            aria-label="Close menu"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto py-2 px-2">
+        <nav className="flex-1 overflow-y-auto py-2 px-2" aria-label="Admin navigation">
           {navGroups.map((group) => (
             <div key={group.label} className="mb-1">
               <button
                 onClick={() => toggleGroup(group.label)}
                 className="flex w-full items-center justify-between px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground"
+                type="button"
               >
                 {group.label}
                 <ChevronDown
@@ -216,8 +152,9 @@ export function CrmSidebar({ open, onClose }: CrmSidebarProps) {
                             : "text-muted-foreground hover:bg-muted hover:text-foreground",
                           item.disabled && "opacity-40 cursor-not-allowed",
                         )}
+                        aria-current={isActive ? "page" : undefined}
                       >
-                        <Icon className="h-4 w-4 shrink-0" />
+                        <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                         <span className="truncate">{item.name}</span>
                         {item.disabled && (
                           <span className="ml-auto text-[10px] rounded bg-muted px-1.5 py-0.5">
@@ -231,17 +168,17 @@ export function CrmSidebar({ open, onClose }: CrmSidebarProps) {
               )}
             </div>
           ))}
-        </div>
+        </nav>
 
         <div className="border-t p-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
-              SA
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
+              {adminProfile.avatar}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">Crm</p>
+              <p className="text-sm font-medium truncate">{adminProfile.name}</p>
               <p className="text-xs text-muted-foreground truncate">
-                crm@jevxo.com
+                {adminProfile.email}
               </p>
             </div>
           </div>
